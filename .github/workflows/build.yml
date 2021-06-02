@@ -1,6 +1,8 @@
 name: dotnet package
 
-on: [push]
+on:
+  push:
+  workflow_dispatch:
 
 jobs:
   build:
@@ -8,14 +10,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+      - name: Check out code
+        uses: actions/checkout@v2
+      
+      - name: Start dependencies (docker-compose)
+        run: |
+          docker-compose up -d  
+      
+      - name: Wait for SQL Server container
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '5s'
+
+      - name: Install .NET Core SDK
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '5.0.x'
-      - name: Install dependencies
+
+      - name: Restore NuGet packages
         run: dotnet restore
+
       - name: Build
         run: dotnet build --configuration Release --no-restore
+
       - name: Test
-        run: dotnet test --no-restore --verbosity normal
+        run: dotnet test -c Release --no-build

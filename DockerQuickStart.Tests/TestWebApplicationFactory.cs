@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using DockerQuickStart.DataAccess;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +12,8 @@ namespace DockerQuickStart.Tests
 {
     public class TestWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
     {
+        private readonly string _connectionString = $"Server=localhost,1433;Database=Blog-{Guid.NewGuid()};User=sa;Password=U4bT^3)ewQ";
+
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder.ConfigureAppConfiguration((context, conf) =>
@@ -28,7 +31,8 @@ namespace DockerQuickStart.Tests
                 services.AddDbContext<BlogDbContext>((serviceProvider, options) =>
                 {
                     var configuration = serviceProvider.GetService<IConfiguration>();
-                    options.UseSqlServer(configuration.GetConnectionString("BlogConnection"));
+                    //options.UseSqlServer(configuration.GetConnectionString("BlogConnection"));
+                    options.UseSqlServer(_connectionString);
                 }, ServiceLifetime.Transient, ServiceLifetime.Singleton);
 
                 var sp = services.BuildServiceProvider();
