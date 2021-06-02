@@ -11,4 +11,5 @@ services:
     environment:
         SA_PASSWORD: "U4bT^3)ewQ"
         ACCEPT_EULA: "Y"
-    network_mode: "host"
+    networks:
+      - blogapp-network

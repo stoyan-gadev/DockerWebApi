@@ -12,7 +12,7 @@ namespace DockerQuickStart.Tests
 {
     public class TestWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
     {
-        private readonly string _connectionString = "Server=localhost,1433;Database=Blog;User=sa;Password=U4bT^3)ewQ";
+        private readonly string _connectionString = "Server=host.docker.internal,1433;Database=Blog;User=sa;Password=U4bT^3)ewQ";
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
