@@ -12,7 +12,7 @@ namespace DockerQuickStart.Tests
 {
     public class TestWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
     {
-        private readonly string _connectionString = $"Server=localhost,1433;Database=Blog-{Guid.NewGuid()};User=sa;Password=U4bT^3)ewQ";
+        private readonly string _connectionString = $"Server=localhost/dockerwebapi_blogapp-sqlserver_1,1433;Database=Blog-{Guid.NewGuid()};User=sa;Password=U4bT^3)ewQ";
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
