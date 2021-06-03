@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using DockerQuickStart.DataAccess;
@@ -12,7 +13,8 @@ namespace DockerQuickStart.Tests
 {
     public class TestWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
     {
-        private readonly string _connectionString = "Data Source=localhost; Initial Catalog=Blog;User=sa;Password=U4bT^3)ewQ";
+        private readonly string _connectionString = "Server=localhost,1433;Database=Blog;User=sa;Password=U4bT^3)ewQ";
+        //private readonly string _connectionString = "Data Source=localhost; Initial Catalog=Blog;User=sa;Password=U4bT^3)ewQ";
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
@@ -43,6 +45,13 @@ namespace DockerQuickStart.Tests
                     db.Database.EnsureDeleted();
                     db.Database.Migrate();
                 }
+            });
+
+            builder.ConfigureAppConfiguration((context, config) =>
+            {
+                config.AddInMemoryCollection(new[] {
+                    new KeyValuePair<string, string>("ConnectionStrings:BlogConnection", _connectionString)
+                });
             });
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using DockerQuickStart.DataAccess;
+using Microsoft.Data.SqlClient;
 using Xunit;
 
 namespace DockerQuickStart.Tests
@@ -14,6 +15,39 @@ namespace DockerQuickStart.Tests
         }
 
         protected override string BaseUrl => "v1/Blogs";
+
+        [Fact]
+        public void Test1()
+        {
+            using (var connection = new SqlConnection("Server=localhost,1433;Database=Blog;User=sa;Password=U4bT^3)ewQ"))
+            {
+                connection.Open();
+            }
+        }
+
+        //[Fact]
+        //public void Test2()
+        //{
+        //    using (var connection = new SqlConnection("Server=localhost,1433;Database=Blog;User=sa;Password=U4bT^3)ewQ"))
+        //    {
+        //        connection.Open();
+        //    }
+        //}
+
+        //[Fact]
+        //public void Test3()
+        //{
+
+        //}
+
+        //[Fact]
+        //public void Test4()
+        //{
+        //    using (var connection = new SqlConnection("Server=localhost/sql-server-database,1433;Database=Blog;User=sa;Password=U4bT^3)ewQ"))
+        //    {
+        //        connection.Open();
+        //    }
+        //}
 
         [Fact]
         public async Task GetBlogById_Success()
